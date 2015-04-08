@@ -102,6 +102,47 @@ class UBC_Helpers {
 
 	}/* fetchTemplatePart() */
 
+
+	/**
+	 * Fetch the current platform set as a define in the wp-config.php file
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param null
+	 * @return bool|string the defined platform
+	 */
+
+	public static function get_current_platform() {
+
+		if ( ! defined( 'CTLT_PLATFORM' ) ) {
+			return false;
+		}
+
+		return CTLT_PLATFORM;
+
+	}/* get_current_platform() */
+
+
+	/**
+	 * Fetch the curent environment (verf, prod, local) set as a define in the wp-config.php file
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param null
+	 * @return bool|string the defined environment
+	 */
+
+	public static function get_current_environment() {
+
+		if ( ! defined( 'CTLT_ENVIRONMENT' ) ) {
+			return false;
+		}
+
+		return CTLT_ENVIRONMENT;
+
+	}/* get_current_environment() */
+
+
 }/* class UBC_Helpers */
 
 

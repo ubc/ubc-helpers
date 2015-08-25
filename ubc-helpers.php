@@ -1,5 +1,5 @@
 <?php
-
+namespace UBC;
 /**
  * Plugin Name:     UBC Helpers
  * Plugin URI:		http://ctlt.ubc.ca/
@@ -17,11 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( class_exists( 'UBC_Helpers' ) ) {
-	return;
-}
-
-class UBC_Helpers {
+class Helpers {
 
 	/**
 	 * Method to allow including of a template part from within a plugin. Replicates what locate_template() does in
@@ -63,7 +59,7 @@ class UBC_Helpers {
 			}
 		}
 
-		if ( $load && '' != $located ) {
+		if ( $load && '' !== $located ) {
 			load_template( $located, $require_once );
 		}
 
@@ -115,7 +111,7 @@ class UBC_Helpers {
 	public static function get_current_platform() {
 
 		if ( ! defined( 'CTLT_PLATFORM' ) ) {
-			return false;
+			return 'Unknown Platform. Define CTLT_PLATFORM in wp-config.php';
 		}
 
 		return CTLT_PLATFORM;
@@ -135,7 +131,7 @@ class UBC_Helpers {
 	public static function get_current_environment() {
 
 		if ( ! defined( 'CTLT_ENVIRONMENT' ) ) {
-			return false;
+			return 'Unknown Environment. Define CTLT_ENVIRONMENT in wp-config.php';
 		}
 
 		return CTLT_ENVIRONMENT;
@@ -147,7 +143,7 @@ class UBC_Helpers {
 
 
 // Fire up the helpers nice and early
-add_action( 'plugins_loaded', 'plugins_loaded__register_ubc_helpers', 2 );
+add_action( 'plugins_loaded', '\UBC\plugins_loaded__register_ubc_helpers', 2 );
 
 
 /**
@@ -162,6 +158,6 @@ add_action( 'plugins_loaded', 'plugins_loaded__register_ubc_helpers', 2 );
 function plugins_loaded__register_ubc_helpers() {
 
 	global $UBC_Helpers;
-	$UBC_Helpers = new UBC_Helpers();
+	$UBC_Helpers = new \UBC\Helpers();
 
 }/* plugins_loaded__registerUBCHelpers() */

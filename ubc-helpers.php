@@ -4,7 +4,7 @@ namespace UBC;
  * Plugin Name:     UBC Helpers
  * Plugin URI:		http://ctlt.ubc.ca/
  * Description:     A set of utility functions which we can openly use in our other plugins to help maintainability.
- * Version:         1.0.0
+ * Version:         0.2.0
  * Author:			Richard Tape
  * Author URI:		http://blogs.ubc.ca/mbcx9rvt
  * License:	        GPL-2.0+

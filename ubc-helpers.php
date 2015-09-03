@@ -99,6 +99,98 @@ class Helpers {
 	}/* fetchTemplatePart() */
 
 
+
+	/**
+	 * Fetch tags for a post and outputs them as a string
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param (int) $post_id - The ID of a post
+	 * @param (string) $property - Which proprty of the tag object to fetch (name|slug|id etc.)
+	 * @param (string) $separator - What to separate multiple tags with
+	 * @return (string) The tags separated by $separator
+	 */
+
+	public static function get_plain_tags( $post_id = null, $property = 'name', $separator = ' ' ) {
+
+		// Sanitize input
+		$post_id 	= absint( $post_id );
+		$property 	= sanitize_title_with_dashes( $property );
+		$separator	= wp_kses_post( $separator );
+
+		// If no post ID passed, assume in the loop
+		if ( empty( $post_id ) ) {
+			$post_id = get_the_ID();
+		}
+
+		// Start fresh
+		$htmlstr 	= '';
+		$posttags 	= get_the_tags( $post_id );
+
+		if ( ! $posttags ) {
+			return $htmlstr;
+		}
+
+		foreach ( $posttags as $key => $tag ) {
+			$htmlstr .= $tag->$property . $separator;
+		}
+
+		return esc_html( $htmlstr );
+
+	}/* get_plain_tags() */
+
+
+
+	/**
+	 * Fetches all $property of all terms for all taxonomies for the post
+	 * type of the post
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param (int) $post_id - The ID of a post
+	 * @param (string) $property - Which proprty of the term object to fetch (name|slug|id etc.)
+	 * @param (string) $separator - What to separate multiple terms with
+	 * @return (string) The terms separated by $separator
+	 */
+
+	public static function get_plain_terms( $post_id = null, $property = 'slug', $separator = ' ' ) {
+
+		// Sanitize input
+		$post_id 	= absint( $post_id );
+		$property 	= sanitize_title_with_dashes( $property );
+		$separator	= wp_kses_post( $separator );
+
+		// If no post ID passed, assume in the loop
+		if ( empty( $post_id ) ) {
+
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		$post_type 	= get_post_type( $post_id );
+		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+
+		$outterm = '';
+
+		foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
+
+			$terms = get_the_terms( $post_id, $taxonomy_slug );
+
+			if ( empty( $terms ) ) {
+				continue;
+			}
+
+			foreach ( $terms as $term ) {
+				$outterm .= $term->$property . $separator;
+			}
+		}
+
+		return esc_html( $outterm );
+
+	}/* get_plain_terms() */
+
+
+
 	/**
 	 * Fetch the current platform set as a define in the wp-config.php file
 	 *
